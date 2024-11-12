@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: 'tasks',
     loadChildren: () =>
-      import('./projects/stage_a/tasks/tasks.module').then(
+      import('./learning/stage_a/tasks/tasks.module').then(
         (m) => m.TasksModule
       ),
   },
@@ -18,13 +18,13 @@ const routes: Routes = [
     path: 'click-send-console',
     loadChildren: () =>
       import(
-        './projects/connect_to_backend/click-send-console/click-send-console.module'
+        './learning/stage_b/click-send-console/click-send-console.module'
       ).then((m) => m.ClickSendConsoleModule),
   },
   {
     path: 'show-data',
     loadChildren: () =>
-      import('./projects/connect_to_backend/show-data/show-data.module').then(
+      import('./learning/stage_b/show-data/show-data.module').then(
         (m) => m.ShowDataModule
       ),
   },
@@ -32,21 +32,21 @@ const routes: Routes = [
     path: 'show-data-with-rxjs',
     loadChildren: () =>
       import(
-        './projects/connect_to_backend/show-data-with-rxjs/show-data-with-rxjs.module'
+        './learning/stage_b/show-data-with-rxjs/show-data-with-rxjs.module'
       ).then((m) => m.ShowDataWithRxjsModule),
   },
   {
     path: 'show-data-according-to-convensions',
     loadChildren: () =>
       import(
-        './projects/connect_to_backend/show-data-according-to-convensions/show-data-according-to-convensions.module'
+        './learning/stage_b/show-data-according-to-convensions/show-data-according-to-convensions.module'
       ).then((m) => m.ShowDataAccordingToConvensionsModule),
   },
   {
     path: 'show-data-best-practices',
     loadChildren: () =>
       import(
-        './projects/connect_to_backend/show-data-best-practices/show-data-best-practices.module'
+        './learning/stage_b/show-data-best-practices/show-data-best-practices.module'
       ).then((m) => m.ShowDataBestPracticesModule),
   },
 ];
