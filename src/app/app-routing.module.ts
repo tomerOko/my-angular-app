@@ -3,14 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'users',
-    loadChildren: () =>
-      import('./users/users.module').then((m) => m.UsersModule),
-  },
-  {
     path: 'tasks',
     loadChildren: () =>
-      import('./tasks/tasks.module').then((m) => m.TasksModule),
+      import('./projects/stage_a/tasks/tasks.module').then(
+        (m) => m.TasksModule
+      ),
   },
 ];
 
