@@ -18,6 +18,7 @@ import { ShowDataAccordingToConvensionsComponent } from './projects/connect_to_b
 import { ShowDataBestPracticesComponent } from './projects/connect_to_backend/show-data-best-practices/show-data-best-practices.component';
 import { ShowDataWithRxjsComponent } from './projects/connect_to_backend/show-data-with-rxjs/show-data-with-rxjs.component';
 import { ShowDataComponent } from './projects/connect_to_backend/show-data/show-data.component';
+import { NavigationComponent } from './shared/components/navigation/navigation.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ShowDataComponent } from './projects/connect_to_backend/show-data/show-
     ShowDataWithRxjsComponent,
     ShowDataAccordingToConvensionsComponent,
     ShowDataBestPracticesComponent,
+    NavigationComponent,
   ],
   imports: [
     BrowserModule,
