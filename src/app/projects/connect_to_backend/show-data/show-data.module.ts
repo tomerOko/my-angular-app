@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-
+import { ShowDataComponent } from './show-data.component';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule
-  ]
+  declarations: [ShowDataComponent],
+  imports: [CommonModule],
 })
-export class ShowDataModule { }
+export class ShowDataModule {}
