@@ -1,1 +1,12 @@
-<p>show-data works!</p>
+<div class="button-container">
+  <div class="button-grid">
+    <button
+      *ngFor="let button of buttons"
+      class="grid-button"
+      (click)="button.onClick()"
+    >
+      {{ button.text }}
+    </button>
+  </div>
+</div>
+<h3>{{ result }}</h3>
