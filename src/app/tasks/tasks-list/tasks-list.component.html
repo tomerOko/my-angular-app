@@ -1,0 +1,35 @@
+<div class="tasks-list-container">
+  <header class="header">
+    <h2>Task List</h2>
+    <p class="header-description">Manage your tasks efficiently</p>
+  </header>
+
+  <div *ngIf="!!currentTask">
+    <div class="form-section">
+      <app-task-prime-form
+        [task]="currentTask"
+        (cancelEditing)="cancelEditing()"
+        (doneEditing)="doneEditing($event)"
+      >
+      </app-task-prime-form>
+    </div>
+  </div>
+
+  <div class="tasks-section">
+    <h3>Current Tasks</h3>
+    <div class="tasks-list">
+      <app-task-card
+        *ngFor="let task of taskService.tasks; trackBy: trackById"
+        [task]="task"
+        class="task-item"
+        (deleteTaskEvent)="deleteTask($event)"
+        (editTaskEvent)="startEditTask($event)"
+      ></app-task-card>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>Total tasks: {{ taskService.tasks.length }}</p>
+    <button (click)="addNewTask()" class="add-task-btn">Add Task</button>
+  </footer>
+</div>

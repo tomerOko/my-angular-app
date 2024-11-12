@@ -1,0 +1,63 @@
+<p-card header="{{ isEditing ? 'Edit task' : 'task Registration' }}">
+  <form (ngSubmit)="onSubmit()" #taskForm="ngForm">
+    <div class="p-field">
+      <label for="title">title</label>
+      <input
+        id="title"
+        type="text"
+        pInputText
+        [(ngModel)]="task.title"
+        name="title"
+        required
+      />
+    </div>
+
+    <div class="p-field">
+      <label for="description">description</label>
+      <input
+        id="description"
+        type="description"
+        pInputText
+        [(ngModel)]="task.description"
+        name="description"
+        required
+      />
+    </div>
+
+    <div class="p-field">
+      <label for="attachments">attachments</label>
+      <input
+        id="attachments"
+        type="attachments"
+        pInputText
+        [(ngModel)]="attachmentsAsString"
+        name="attachments"
+        required
+      />
+    </div>
+
+    <!-- Checkbox -->
+    <div class="p-field-checkbox">
+      <p-checkbox
+        [(ngModel)]="task.completed"
+        name="completed"
+        [binary]="true"
+      ></p-checkbox>
+      <label for="completed">task completed</label>
+    </div>
+
+    <!-- Submit Button -->
+    <button
+      type="submit"
+      pButton
+      label="Submit"
+      icon="pi pi-check"
+      [disabled]="!taskForm.valid"
+    ></button>
+
+    <div class="form-footer">
+      <!-- cancel editing -->
+      <button class="cancel-btn" (click)="onCancel()">Cancel</button>
+    </div>
+  </form>
+</p-card>
