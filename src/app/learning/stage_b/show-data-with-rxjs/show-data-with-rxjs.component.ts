@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { filter, fromEvent, map, Observable, of, reduce } from 'rxjs';
+import { debounceTime, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-show-data-with-rxjs',
@@ -7,35 +7,19 @@ import { filter, fromEvent, map, Observable, of, reduce } from 'rxjs';
   styleUrl: './show-data-with-rxjs.component.scss',
 })
 export class ShowDataWithRxjsComponent implements OnInit {
-  x = of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-  y = this.x.pipe(
-    filter((value) => value > 0),
-    map((value) => value * 2),
-    reduce((acc, value) => acc + value)
-  );
+  subject = new Subject<string>();
+  constructor() {}
 
-  constructor() {
-    this.y.subscribe({
-      complete: () => {
-        console.log('done');
-      },
-      next(value) {
-        console.log(value);
-      },
-      error(err) {
-        console.log('error');
-        console.log(err);
-      },
+  presentedValue = '';
+
+  ngOnInit() {
+    this.subject.pipe(debounceTime(500)).subscribe((value) => {
+      this.presentedValue = value;
     });
   }
 
-  ngOnInit() {
-    const button = document.getElementById('btn');
-    const click = fromEvent(button as any, 'click');
-    click.subscribe({
-      next: (value) => {
-        console.log(value);
-      },
-    });
+  consoleHandler(event: KeyboardEvent) {
+    const currentValue = (event.target as HTMLInputElement).value;
+    this.subject.next(currentValue);
   }
 }
