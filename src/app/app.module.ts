@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import {
   BrowserModule,
   provideClientHydration,
 } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { CheckboxModule } from 'primeng/checkbox';
@@ -13,17 +14,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavigationComponent } from './shared/components/navigation/navigation.component';
-import { HallowComponent } from './hallow/hallow.component';
-import { LoginComponent } from './project/components/auth/login/login/login.component';
-import { SignupComponent } from './project/components/auth/signup/signup.component';
-import { NotesListComponent } from './project/components/notes/notes-list/notes-list.component';
-import { NoteDetailComponent } from './project/components/notes/note-detail/note-detail.component';
-import { NoteEditComponent } from './project/components/notes/note-edit/note-edit.component';
-import { NavbarComponent } from './project/components/shared/navbar/navbar.component';
-import { FooterComponent } from './project/components/shared/footer/footer.component';
-import { SidebarComponent } from './project/components/shared/sidebar/sidebar.component';
-import { DashboardComponent } from './project/components/analytics/dashboard/dashboard.component';
+import { AuthInterceptor } from './project/interceptors/auth.interceptor';
+import { ErrorInterceptor } from './project/interceptors/error.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,8 +28,7 @@ import { DashboardComponent } from './project/components/analytics/dashboard/das
     DropdownModule,
     CheckboxModule,
     ButtonModule,
-    SharedModule,
-    AuthModule,
+    RouterModule,
   ],
   providers: [
     provideClientHydration(),

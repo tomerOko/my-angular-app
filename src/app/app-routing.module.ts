@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NavigationComponent } from './shared/components/navigation/navigation.component';
+import { AuthGuard } from './project/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -59,14 +60,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./project/components/notes/notes.module').then(
         (m) => m.NotesModule
-      ),
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'analytics',
-    loadChildren: () =>
-      import('./project/components/analytics/analytics.module').then(
-        (m) => m.AnalyticsModule
       ),
     canActivate: [AuthGuard],
   },
