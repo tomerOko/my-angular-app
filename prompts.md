@@ -1,6 +1,5 @@
 write me a complete project, something like notes manager or a shoping cart application. start with a reaq.md file explainig the bussiness logic, then the technical side.
 
-
 technologies:
 client: angular, rxjs
 orchastration: kubernetes (on docker desktop)
@@ -9,13 +8,11 @@ back end services: nest.js, rxjs
 queue system: rabbit mq
 analytics monitoring and logs: ELK Stack enhanced with Beats and Elastic APM
 
-
 analytics and monitoring rquirements:
 analytics (how many users failing and succeeding to signup every day for example, etc..),
 resources monitoring (how many cpu's are used in my kubernetes cluster and databases response time, etc..)
 log management (i want to be able to follow a complete flow across my kuberentes cluster from the http request through mutliple services all the way to http response, etc..)
-notifications (like slack message or a whatsapp notification if some services is down, etc..) 
-
+notifications (like slack message or a whatsapp notification if some services is down, etc..)
 
 Backend Conventions:
 
@@ -61,7 +58,6 @@ Request-Specific Actions: Handle actions related to the request object, such as 
 
 Examples
 
-
 // entities1.controller.ts
 import { Body, Controller, Post } from '@nestjs/common';
 import { CreationEntity1Dto } from '../models/dtos/creation-entity1.dto';
@@ -70,11 +66,11 @@ import { Entity1ResponseDto } from '../models/dtos/entity1-response.dto';
 @ApiTags('Entities1')
 @Controller('entities1')
 export class Entities1Controller {
-  constructor(private readonly entities1Provider: Entities1Provider) {}
-  @Post()
-  public async createEntity1(@Body() creationEntity1Dto: CreationEntity1Dto): Promise<Entity1ResponseDto> {
-    return await this.entities1Provider.createEntity1(creationEntity1Dto);
-  }
+constructor(private readonly entities1Provider: Entities1Provider) {}
+@Post()
+public async createEntity1(@Body() creationEntity1Dto: CreationEntity1Dto): Promise<Entity1ResponseDto> {
+return await this.entities1Provider.createEntity1(creationEntity1Dto);
+}
 }
 Diagrams
 Open Backend Layers-Controller.drawio.png
@@ -100,26 +96,25 @@ Data Transformation: Use transformations to convert DTOs to DMs before applying 
 
 Examples
 
-
 // entities1.provider.ts
 import { Injectable } from '@nestjs/common';
 import { CreationEntity1Dto } from '../models/dtos/creation-entity1.dto';
 import { Entities1Service } from '../services/entities1.service';
 import { Entity1ResponseDto } from '../models/dtos/entity1-response.dto';
-import { Entity1Dm } from '../models/dms/entity1.dm';
+import { Entity1Dm } from '../models/entity1.dm';
 import { Entities1Transformer } from '../transformers/entities1.transformer';
 @Injectable()
 export class Entities1Provider {
-  constructor(private readonly entities1Service: Entities1Service) {}
-  public async createEntity1(creationEntity1Dto: CreationEntity1Dto): Promise<Entity1ResponseDto> {
-    try {
-      const entity1Dm: Entity1Dm = Entities1Transformer.transformCreationEntity1DtoToEntity1Dm(creationEntity1Dto);
-      const newEntity1Dm: Entity1Dm = await this.entities1Service.createEntity1(entity1Dm);
-      return Entities1Transformer.transformCreationEntity1DmToEntity1Dto(newEntity1Dm);
-    } catch (error) {
-      // Handle error as needed and throw an exception if needed.
-    }
-  }
+constructor(private readonly entities1Service: Entities1Service) {}
+public async createEntity1(creationEntity1Dto: CreationEntity1Dto): Promise<Entity1ResponseDto> {
+try {
+const entity1Dm: Entity1Dm = Entities1Transformer.transformCreationEntity1DtoToEntity1Dm(creationEntity1Dto);
+const newEntity1Dm: Entity1Dm = await this.entities1Service.createEntity1(entity1Dm);
+return Entities1Transformer.transformCreationEntity1DmToEntity1Dto(newEntity1Dm);
+} catch (error) {
+// Handle error as needed and throw an exception if needed.
+}
+}
 }
 Diagrams
 Open Backend Layers-Provider.drawio.png
@@ -143,21 +138,20 @@ Data Transformation: Services receive data in the form of DM from the provider, 
 
 Examples
 
-
 // entities1.service.ts
 import { Injectable } from '@nestjs/common';
 import { Entities1Repository } from '../repositories/entities1.repository';
-import { Entity1Dm } from '../models/dms/entity1.dm';
+import { Entity1Dm } from '../models/entity1.dm';
 import { Entities1Transformer } from '../transformers/entities1.transformer';
 import { Entity1Model } from '../schemas/entity1.schema';
 @Injectable()
 export class Entities1Service {
-  constructor(private readonly entities1Repository: Entities1Repository) {}
-  public async createEntity1(entity1Dm: Entity1Dm): Promise<Entity1Dm> {
-    const entity1Model: Entity1Model = Entities1Transformer.transformCreationEntity1DmToEntity1Model(entity1Dm);
-    const newEntity1Model: Entity1Model = await this.entities1Repository.create(entity1Model);
-    return Entities1Transformer.transformCreationEntity1ModelToEntity1Dm(newEntity1Model);
-  }
+constructor(private readonly entities1Repository: Entities1Repository) {}
+public async createEntity1(entity1Dm: Entity1Dm): Promise<Entity1Dm> {
+const entity1Model: Entity1Model = Entities1Transformer.transformCreationEntity1DmToEntity1Model(entity1Dm);
+const newEntity1Model: Entity1Model = await this.entities1Repository.create(entity1Model);
+return Entities1Transformer.transformCreationEntity1ModelToEntity1Dm(newEntity1Model);
+}
 }
 Diagrams
 Open Backend Layers-Service.drawio.png
@@ -179,7 +173,6 @@ Flexible Access: Ensure that repositories provide a flexible interface so that s
 
 Examples
 
-
 // entities1.repository.ts
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -187,10 +180,10 @@ import { Entity1Document, Entity1Model } from '../schemas/entity1.schema';
 import { Model } from 'mongoose';
 @Injectable()
 export class Entities1Repository {
-  constructor(@InjectModel(Entity1Model.name) private readonly entity1Document: Model<Entity1Document>) {}
-  public async create(entity1Model: Entity1Model): Promise<Entity1Model> {
-    return await this.entity1Document.create(entity1Model);
-  }
+constructor(@InjectModel(Entity1Model.name) private readonly entity1Document: Model<Entity1Document>) {}
+public async create(entity1Model: Entity1Model): Promise<Entity1Model> {
+return await this.entity1Document.create(entity1Model);
+}
 }
 Diagrams
 Open Backend Layers-Repository.drawio.png
@@ -216,53 +209,52 @@ Data Object Integrity: Validate that all transformations preserve the integrity 
 
 Examples
 
-
 // entities1.transformer.ts
 import { CreationEntity1Dto } from '../models/dtos/creation-entity1.dto';
-import { Entity1Dm } from '../models/dms/entity1.dm';
+import { Entity1Dm } from '../models/entity1.dm';
 import { Entity1ResponseDto } from '../models/dtos/entity1-response.dto';
 import { Entity1Model } from '../schemas/entity1.schema';
 export class Entities1Transformer {
-  public static transformCreationEntity1DtoToEntity1Dm(creationEntity1Dto: CreationEntity1Dto): Entity1Dm {
-    return {
-      id: undefined,
-      createdAt: undefined,
-      updatedAt: undefined,
-      name: creationEntity1Dto.name,
-      description: creationEntity1Dto.description,
-      location: creationEntity1Dto.location,
-    };
-  }
-  public static transformCreationEntity1DmToEntity1Dto(entity1Dm: Entity1Dm): Entity1ResponseDto {
-    return {
-      id: entity1Dm.id,
-      createdAt: entity1Dm.createdAt,
-      updatedAt: entity1Dm.updatedAt,
-      name: entity1Dm.name,
-      description: entity1Dm.description,
-      location: entity1Dm.location,
-    };
-  }
-  public static transformCreationEntity1DmToEntity1Model(entity1Dm: Entity1Dm): Entity1Model {
-    return {
-      id: entity1Dm.id,
-      createdAt: entity1Dm.createdAt,
-      updatedAt: entity1Dm.updatedAt,
-      name: entity1Dm.name,
-      description: entity1Dm.description,
-      location: entity1Dm.location,
-    };
-  }
-  public static transformCreationEntity1ModelToEntity1Dm(entity1Model: Entity1Model): Entity1Dm {
-    return {
-      id: entity1Model.id,
-      createdAt: entity1Model.createdAt,
-      updatedAt: entity1Model.updatedAt,
-      name: entity1Model.name,
-      description: entity1Model.description,
-      location: entity1Model.location,
-    };
-  }
+public static transformCreationEntity1DtoToEntity1Dm(creationEntity1Dto: CreationEntity1Dto): Entity1Dm {
+return {
+id: undefined,
+createdAt: undefined,
+updatedAt: undefined,
+name: creationEntity1Dto.name,
+description: creationEntity1Dto.description,
+location: creationEntity1Dto.location,
+};
+}
+public static transformCreationEntity1DmToEntity1Dto(entity1Dm: Entity1Dm): Entity1ResponseDto {
+return {
+id: entity1Dm.id,
+createdAt: entity1Dm.createdAt,
+updatedAt: entity1Dm.updatedAt,
+name: entity1Dm.name,
+description: entity1Dm.description,
+location: entity1Dm.location,
+};
+}
+public static transformCreationEntity1DmToEntity1Model(entity1Dm: Entity1Dm): Entity1Model {
+return {
+id: entity1Dm.id,
+createdAt: entity1Dm.createdAt,
+updatedAt: entity1Dm.updatedAt,
+name: entity1Dm.name,
+description: entity1Dm.description,
+location: entity1Dm.location,
+};
+}
+public static transformCreationEntity1ModelToEntity1Dm(entity1Model: Entity1Model): Entity1Dm {
+return {
+id: entity1Model.id,
+createdAt: entity1Model.createdAt,
+updatedAt: entity1Model.updatedAt,
+name: entity1Model.name,
+description: entity1Model.description,
+location: entity1Model.location,
+};
+}
 }
 Manager
 Description
@@ -321,28 +313,27 @@ Organization: Group utilities logically (e.g., DateUtils, StringUtils) to make t
 
 Example
 
-
 // date.utils.ts
-import * as moment from 'moment';
+import _ as moment from 'moment';
 export class DateUtils {
-  public static transformEpochToStringByFormat(epoch: number, format?: string): string {
-    return moment(epoch * 1000).format(format);
-  }
-  public static transformDateToEpoch(date: Date): number {
-    if (!date) {
-      return null;
-    }
-    return moment(date).unix();
-  }
-  public static transformEpochToDate(epoch: number): Date {
-    if (!Number.isFinite(epoch)) {
-      return null;
-    }
-    return moment(epoch * 1000).toDate();
-  }
-  public static getNowAsEpoch(): number {
-    return moment().unix();
-  }
+public static transformEpochToStringByFormat(epoch: number, format?: string): string {
+return moment(epoch _ 1000).format(format);
+}
+public static transformDateToEpoch(date: Date): number {
+if (!date) {
+return null;
+}
+return moment(date).unix();
+}
+public static transformEpochToDate(epoch: number): Date {
+if (!Number.isFinite(epoch)) {
+return null;
+}
+return moment(epoch \* 1000).toDate();
+}
+public static getNowAsEpoch(): number {
+return moment().unix();
+}
 }
 Complete Flows
 Open Backend Layers-Basic Layers.drawio.png
@@ -352,9 +343,9 @@ Open Backend Layers-Transformers.drawio.png
 Backend Layers-Transformers.drawio.png
 Diagram show the data objects that each layers work with.
 Encapsulation
-Encapsulation is very important principle that help us to keep the code maintainable and flexible. 
+Encapsulation is very important principle that help us to keep the code maintainable and flexible.
 
- Modules Encapsulation
+Modules Encapsulation
 NestJS adopt the Angular modules mechanism. Thus, we can manage our modules in the project in very flexible way. For example we can build multiple module and choose which of them load base on deployment or load modules in other modules and reuse them as needed. Here are some guidelines for manage our module correctly:
 
 Try to separate modules to be small and specific instead of create big module that import a lot of providers and controllers. Each module responsible for its providers and controllers. It’s important to manage correctly the modules and exports providers that may be used in other modules.
@@ -362,8 +353,6 @@ Try to separate modules to be small and specific instead of create big module th
 Each module responsible for its providers and controllers. Thus, provider and controller should not be attached to more than one module. If a module should use one of another module’s provider it should import the whole module.
 
 Examples:
-
-
 
 // entities1.module.ts
 import { Module } from '@nestjs/common';
@@ -374,13 +363,12 @@ import { Entities1Repository } from './repositories/entities1.repository';
 import { ApiCommunicationManagerModule } from '../../core/managers/api-communication-manager/api-communication-manager.module';
 import { Entities2Module } from '../entities2/entities2.module';
 @Module({
-  imports: [ApiCommunicationManagerModule, Entities2Module],
-  controllers: [Entities1Controller],
-  providers: [Entities1Provider, Entities1Service, Entities1Repository],
-  exports: [Entities1Provider, Entities1Service, Entities1Repository],
+imports: [ApiCommunicationManagerModule, Entities2Module],
+controllers: [Entities1Controller],
+providers: [Entities1Provider, Entities1Service, Entities1Repository],
+exports: [Entities1Provider, Entities1Service, Entities1Repository],
 })
 export class Entities1Module {}
-
 
 // entities2.module.ts
 import { Module } from '@nestjs/common';
@@ -388,10 +376,10 @@ import { Entities2Service } from './services/entities2.service';
 import { Entities2Repository } from './repositories/entities2.repository';
 import { ApiCommunicationManagerModule } from '../../core/managers/api-communication-manager/api-communication-manager.module';
 @Module({
-  imports: [ApiCommunicationManagerModule],
-  controllers: [],
-  providers: [Entities2Service, Entities2Repository],
-  exports: [Entities2Service, Entities2Repository],
+imports: [ApiCommunicationManagerModule],
+controllers: [],
+providers: [Entities2Service, Entities2Repository],
+exports: [Entities2Service, Entities2Repository],
 })
 export class Entities2Module {}
 Deployment
@@ -399,24 +387,22 @@ As mentioned before our projects written in NestJS which manage modules with its
 
 Examples:
 
-
-
 // app.module.ts
 import { Module } from '@nestjs/common';
 import { ServiceTypeEnum } from './config/enums/service-type.enum';
 const importModulesToLoad = [];
 const serviceType: ServiceTypeEnum = process.env.SERVICE_TYPE as ServiceTypeEnum;
 if ([ServiceTypeEnum.IMPORTER, ServiceTypeEnum.ALL].includes(serviceType)) {
-  importModulesToLoad.push(Entities1ImporterModule);
+importModulesToLoad.push(Entities1ImporterModule);
 }
 if ([ServiceTypeEnum.API, ServiceTypeEnum.ALL].includes(serviceType)) {
-  importModulesToLoad.push(Entities1Module);
+importModulesToLoad.push(Entities1Module);
 }
 @Module({
-  imports: [...importModulesToLoad],
-  contollers: [],
-  providers: [],
-  exports: [],
+imports: [...importModulesToLoad],
+contollers: [],
+providers: [],
+exports: [],
 })
 export class AppModule {}
 Data Validation
@@ -427,25 +413,21 @@ class-validator library supports various common validation that we can use, such
 
 Examples:
 
-
-
 // location.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber } from 'class-validator';
 export class LocationDto {
-  @ApiProperty()
-  @IsNumber()
-  long: number;
-  @ApiProperty()
-  @IsNumber()
-  lat: number;
+@ApiProperty()
+@IsNumber()
+long: number;
+@ApiProperty()
+@IsNumber()
+lat: number;
 }
 Nested Validation
 class-validator library supports more complex and nested validations (@Type, @ValidateNested, @IsArray…) that supports complex objects.
 
 Examples:
-
-
 
 // entity1.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
@@ -453,67 +435,64 @@ import { IsDate, IsObject, IsOptional, IsString, ValidateNested } from 'class-va
 import { Type } from 'class-transformer';
 import { LocationDto } from './location.dto';
 export class Entity1Dto {
-  @ApiProperty()
-  @IsString()
-  id: string;
-  @ApiProperty()
-  @IsDate()
-  createdAt: Date;
-  @ApiProperty()
-  @IsDate()
-  updatedAt: Date;
-  @ApiProperty()
-  @IsString()
-  name: string;
-  @ApiProperty()
-  @IsString()
-  @IsOptional()
-  description?: string;
-  @ApiProperty()
-  @ValidateNested()
-  @Type(() => LocationDto)
-  @IsObject()
-  location: LocationDto;
+@ApiProperty()
+@IsString()
+id: string;
+@ApiProperty()
+@IsDate()
+createdAt: Date;
+@ApiProperty()
+@IsDate()
+updatedAt: Date;
+@ApiProperty()
+@IsString()
+name: string;
+@ApiProperty()
+@IsString()
+@IsOptional()
+description?: string;
+@ApiProperty()
+@ValidateNested()
+@Type(() => LocationDto)
+@IsObject()
+location: LocationDto;
 }
 Custom Validation
 class-validator library supports custom validations (@Type, @ValidateNested, @IsArray…) that let us create our own validation base on our needs.
 
 Examples:
 
-
-
 // is-string-or-number.validation.ts
 import { ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
 import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator';
 @ValidatorConstraint({ name: 'string-or-number', async: false })
 export class IsNumberOrStringConstraint implements ValidatorConstraintInterface {
-  validate(value: any, args: ValidationArguments) {
-    return typeof value === 'number' || typeof value === 'string';
-  }
-  defaultMessage(args: ValidationArguments) {
-    return `${args.property} must be number or string`;
-  }
+validate(value: any, args: ValidationArguments) {
+return typeof value === 'number' || typeof value === 'string';
+}
+defaultMessage(args: ValidationArguments) {
+return `${args.property} must be number or string`;
+}
 }
 export function IsNumberOrString(validationOptions?: ValidationOptions) {
-  return function (object: Object, propertyName: string) {
-    registerDecorator({
-      target: object.constructor,
-      propertyName: propertyName,
-      options: validationOptions,
-      constraints: [],
-      validator: IsNumberOrStringConstraint,
-    });
-  };
+return function (object: Object, propertyName: string) {
+registerDecorator({
+target: object.constructor,
+propertyName: propertyName,
+options: validationOptions,
+constraints: [],
+validator: IsNumberOrStringConstraint,
+});
+};
 }
-
 
 // entity2.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumberOrString } from '../../../../shared/validations/is-string-or-number.validation';
 export class Entity2Dto {
-  @ApiProperty()
-  @IsNumberOrString()
-  id: string | number;
+@ApiProperty()
+@IsNumberOrString()
+id: string | number;
 }
 Validation Operator
 class-validator library supports validation operators that let us create our basic validation template and then create more specific validation derived from the template. We can use multiple operators together in order to derive the requested validations. Common operator are:
@@ -530,25 +509,20 @@ More information may found in NestJS Docs Validation - Mapped types
 
 Examples:
 
-
-
 // update-entity1.dto.ts
 import { PartialType } from '@nestjs/swagger';
 import { Entity1Dto } from './entity1.dto';
 export class UpdateEntity1Dto extends PartialType(Entity1Dto) {}
-
 
 // creation-entity1.dto.ts
 import { OmitType } from '@nestjs/swagger';
 import { Entity1Dto } from './entity1.dto';
 export class CreationEntity1Dto extends OmitType(Entity1Dto, ['id', 'createdAt', 'updatedAt'] as const) {}
 
-
 // update-entity1-location.dto.ts
 import { PickType } from '@nestjs/swagger';
 import { Entity1Dto } from './entity1.dto';
 export class UpdateEntity1LocationDto extends PickType(Entity1Dto, ['location'] as const) {}
-
 
 // combined-entities.dto.ts
 import { IntersectionType } from '@nestjs/swagger';
@@ -603,7 +577,6 @@ app.module.ts and main.ts located directly under /src directory.
 /src/modules contains all our modules that responsible for the project business logic.
 
 end of backend conventions.
-
 
 Frontend Conventions:
 
@@ -669,8 +642,6 @@ A class that modifies the behavior or appearance of the DOM, enabling custom HTM
 Data objects examples
 Our application has a few data object types, focusing on DTO, DM and VM.
 
- 
-
 DTOs:
 
 Description: DTOs define the request and response data structure between the application and external systems. They help standardize data formats, enforce type safety, and encapsulate only the necessary data.
@@ -695,26 +666,20 @@ Examples:
 
 Request DTO:
 
-
-
 // example-request.dto.ts
 export interface ExampleRequestDto {
-    userId: number;
-  }
- 
+userId: number;
+}
 
 Response DTO
 
-
-
 // example-response.dto.ts
 export interface ExampleResponseDto {
-    userName: string;
-    title: string;
-    content: string;
-    createdAt: Date;
+userName: string;
+title: string;
+content: string;
+createdAt: Date;
 }
- 
 
 DM (Data model)
 
@@ -730,17 +695,14 @@ Acts as a reliable source of truth for the app’s core data.
 
 File Naming Convention: example.dm.ts
 
-
-
 // example.dm.ts
 export interface ExampleDm {
-    id: number;
-    userId: number;
-    title: string;
-    content: string;
-    createdAt: Date;
+id: number;
+userId: number;
+title: string;
+content: string;
+createdAt: Date;
 }
- 
 
 VM (View model)
 
@@ -756,20 +718,16 @@ Only necessary when a clear advantage in organizing display logic is gained, its
 
 Decouple data separates DMs from UI-specific concerns to clearly distinguish data structure and presentation.
 
- 
-
 File Naming Convention: example.vm.ts
-
-
 
 // example.vm.ts
 export interface ExampleVm {
-    id: number;
-    userId: number;
-    title: string;
-    content: string;
-    createdAt: Date;
-    isEditing: boolean; // Additional property for UI state
+id: number;
+userId: number;
+title: string;
+content: string;
+createdAt: Date;
+isEditing: boolean; // Additional property for UI state
 }
 Additional Types
 Interface: Basic data structures for modeling shapes of data across the application.
@@ -801,15 +759,12 @@ File Naming Convention: user-service.service.ts
 
 Never use provided in root if you need to show two same components that should handle different data, they will share the same state.
 
-
-
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  getUsers(message: string): Observable<GetUsersResponseDto> {
-   // .....
-  }
+getUsers(message: string): Observable<GetUsersResponseDto> {
+// .....
 }
- 
+}
 
 Transformer
 
@@ -825,42 +780,40 @@ Support back-and-forth transformations between these models to synchronize data 
 
 File Naming Convention: example.transformer.ts
 
-
-
 export class Transformer {
-    static requestDtoToDm(dto: RequestDTO): DataModel {
-        return {
-            id: 0, // Assuming a new post has no ID initially
-            userId: dto.userId,
-            title: dto.title,
-            content: dto.content,
-            createdAt: new Date(), // Set the created date to now
-        };
-    }
-    static responseDtoToDm(dto: ResponseDTO): DataModel {
-        return {
-            id: dto.id,
-            userId: dto.userId,
-            title: dto.title,
-            content: dto.content,
-            createdAt: dto.createdAt,
-        };
-    }
-    static dmToVm(dm: DataModel): ViewModel {
-        return {
-            ...dm,
-            isEditing: false, // Default state for UI
-        };
-    }
-    static vmToDm(vm: ViewModel): DataModel {
-        return {
-            id: vm.id,
-            userId: vm.userId,
-            title: vm.title,
-            content: vm.content,
-            createdAt: vm.createdAt,
-        };
-    }
+static requestDtoToDm(dto: RequestDTO): DataModel {
+return {
+id: 0, // Assuming a new post has no ID initially
+userId: dto.userId,
+title: dto.title,
+content: dto.content,
+createdAt: new Date(), // Set the created date to now
+};
+}
+static responseDtoToDm(dto: ResponseDTO): DataModel {
+return {
+id: dto.id,
+userId: dto.userId,
+title: dto.title,
+content: dto.content,
+createdAt: dto.createdAt,
+};
+}
+static dmToVm(dm: DataModel): ViewModel {
+return {
+...dm,
+isEditing: false, // Default state for UI
+};
+}
+static vmToDm(vm: ViewModel): DataModel {
+return {
+id: vm.id,
+userId: vm.userId,
+title: vm.title,
+content: vm.content,
+createdAt: vm.createdAt,
+};
+}
 }
 Helpers
 Description: Helpers provide simple, reusable utility functions to support application logic, aiding in common operations like string manipulation, date formatting, form creation, and more. They are typically static and intended to assist with logic, not to manage state.
@@ -875,16 +828,14 @@ Serve as a utility toolbox for operations that don’t require dependency inject
 
 File Naming Convention: form.helper.ts
 
-
-
 export class FormHelper {
-  static createUserForm(user: UserDM): FormGroup {
-    return new FormGroup({
-      firstName: new FormControl(user.firstName, Validators.required),
-      lastName: new FormControl(user.lastName, Validators.required),
-      email: new FormControl(user.email, [Validators.required, Validators.email])
-    });
-  }
+static createUserForm(user: UserDM): FormGroup {
+return new FormGroup({
+firstName: new FormControl(user.firstName, Validators.required),
+lastName: new FormControl(user.lastName, Validators.required),
+email: new FormControl(user.email, [Validators.required, Validators.email])
+});
+}
 }
 Managers
 Description: Managers are responsible for handling a specific set of actions and managing micro-states across the application. They often encapsulate functionality that is reused by multiple components and can coordinate complex interactions or workflows. Unlike services, which mainly handle data retrieval and business logic, managers focus on managing the application's state, user interactions, or shared functionality.
@@ -899,54 +850,47 @@ Simplify the flow of data and actions within the application, helping to keep co
 
 File Naming Convention: user.manager.ts
 
-
-
 @Injectable({ providedIn: 'root' })
 export class UserManager {
-  private userSubject = new BehaviorSubject<User | null>(null); // Holds the current user's data
-  user$ = this.userSubject.asObservable(); // Observable for components to subscribe to
-  constructor(private userService: UserService) {}
-  // Load user details by ID and update the userSubject observable
-  loadUser(userId: number): Observable<User> {
-    return this.userService.getUserDetails(userId).pipe(
-      tap((userData: User) => this.userSubject.next(userData)) // Update state
-    );
-  }
-  // Update user profile information and reflect changes in userSubject
-  updateUser(user: Partial<User>): Observable<User> {
-    return this.userService.updateUserProfile(user).pipe(
-      tap((updatedUser: User) => this.userSubject.next(updatedUser)) // Reflect updated state
-    );
-  }
-  // Get the current user's data from userSubject
-  getCurrentUser(): User | null {
-    return this.userSubject.getValue();
-  }
-  // Clear user data, for example, on logout
-  clearUser() {
-    this.userSubject.next(null); // Reset state
-  }
+private userSubject = new BehaviorSubject<User | null>(null); // Holds the current user's data
+user$ = this.userSubject.asObservable(); // Observable for components to subscribe to
+constructor(private userService: UserService) {}
+// Load user details by ID and update the userSubject observable
+loadUser(userId: number): Observable<User> {
+return this.userService.getUserDetails(userId).pipe(
+tap((userData: User) => this.userSubject.next(userData)) // Update state
+);
+}
+// Update user profile information and reflect changes in userSubject
+updateUser(user: Partial<User>): Observable<User> {
+return this.userService.updateUserProfile(user).pipe(
+tap((updatedUser: User) => this.userSubject.next(updatedUser)) // Reflect updated state
+);
+}
+// Get the current user's data from userSubject
+getCurrentUser(): User | null {
+return this.userSubject.getValue();
+}
+// Clear user data, for example, on logout
+clearUser() {
+this.userSubject.next(null); // Reset state
+}
 }
 Flow example: Request and Transformation
 This section outlines the flow of making an API request, receiving a response, transforming the data, and updating the View Model.
 
 1. Request API and Receive Response DTO
-When requesting user details, the UserService is utilized to fetch the data. The response is expected to be in the form of a Data Transfer Object (DTO). The following example demonstrates this process:
-
-
+   When requesting user details, the UserService is utilized to fetch the data. The response is expected to be in the form of a Data Transfer Object (DTO). The following example demonstrates this process:
 
 this.userService.getUserDetails(userId).subscribe((responseDto: ExampleResponseDto) => {
-    // Transform the Response DTO to Data Model (DM)
-    const userData: ExampleDm = Transformer.responseDtoToDm(responseDto);
-    // Update the View Model (VM) with the transformed data
-    this.updateViewModel(userData);
+// Transform the Response DTO to Data Model (DM)
+const userData: ExampleDm = Transformer.responseDtoToDm(responseDto);
+// Update the View Model (VM) with the transformed data
+this.updateViewModel(userData);
 });
- 
 
 2. Transform to Data Model (DM) / View Model (VM)
-Once the response DTO is received, it is transformed into the internal Data Model (DM) and then to the View Model (VM) for use in the UI:
-
-
+   Once the response DTO is received, it is transformed into the internal Data Model (DM) and then to the View Model (VM) for use in the UI:
 
 // Transform to Data Model (DM)
 const userData: ExampleDm = Transformer.responseDtoToDm(responseDto);
@@ -970,23 +914,18 @@ Data Presentation: Components present data retrieved from services or passed dow
 
 Communication with Services for Data Operations: Components interact with services to perform data operations, such as fetching data from APIs, updating data, or managing application state, ensuring a clear separation of concerns.
 
- 
-
 Component injectables tree
 
 This is how a component may look, while working with helpers, services, and a manager.
 
- 
-
 Open image-20241029-094827.png
 image-20241029-094827.png
- 
 
 State Management
 State management can be handled in different ways depending on the complexity and scope of the application. The following strategies can be employed:
 
 1. Store (RxJs)
-Description: The store is suitable for managing complex application-wide state, especially when multiple components need access to the same state.
+   Description: The store is suitable for managing complex application-wide state, especially when multiple components need access to the same state.
 
 When to Use:
 
@@ -1009,7 +948,7 @@ Facilitates debugging and tracking of state changes through time-travel debuggin
 Enhances testability by isolating state logic from UI components.
 
 2. Services
-Description: Services are a good choice for medium-complexity shared state that doesn't require the overhead of a store.
+   Description: Services are a good choice for medium-complexity shared state that doesn't require the overhead of a store.
 
 When to Use:
 
@@ -1028,7 +967,7 @@ Encourages encapsulation of business logic and state management within services.
 Allows for simpler component designs by abstracting state logic.
 
 3. Component Level
-Description: This approach is ideal for managing simple, component-specific state.
+   Description: This approach is ideal for managing simple, component-specific state.
 
 When to Use:
 
@@ -1059,13 +998,9 @@ We use template pipes to easily transform data in our component’s template. Yo
 
 Popular pipes that are used:
 
- 
-
 Translate
 
 some_key | translate - Translates a key to the selected language in the system
-
- 
 
 bigNumbersSuffix
 

@@ -1,0 +1,10 @@
+<!-- src/app/components/notes/notes-list/notes-list.component.html -->
+<div class="notes-list">
+  <h2>Your Notes</h2>
+  <button routerLink="/notes/new">Create New Note</button>
+  <ul>
+    <li *ngFor="let note of notes$ | async">
+      <a [routerLink]="['/notes', note.id]">{{ note.title }}</a>
+    </li>
+  </ul>
+</div>

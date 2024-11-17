@@ -14,9 +14,19 @@ import { InputTextModule } from 'primeng/inputtext';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './shared/components/navigation/navigation.component';
+import { HallowComponent } from './hallow/hallow.component';
+import { LoginComponent } from './project/components/auth/login/login/login.component';
+import { SignupComponent } from './project/components/auth/signup/signup.component';
+import { NotesListComponent } from './project/components/notes/notes-list/notes-list.component';
+import { NoteDetailComponent } from './project/components/notes/note-detail/note-detail.component';
+import { NoteEditComponent } from './project/components/notes/note-edit/note-edit.component';
+import { NavbarComponent } from './project/components/shared/navbar/navbar.component';
+import { FooterComponent } from './project/components/shared/footer/footer.component';
+import { SidebarComponent } from './project/components/shared/sidebar/sidebar.component';
+import { DashboardComponent } from './project/components/analytics/dashboard/dashboard.component';
 
 @NgModule({
-  declarations: [AppComponent, NavigationComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -26,8 +36,15 @@ import { NavigationComponent } from './shared/components/navigation/navigation.c
     DropdownModule,
     CheckboxModule,
     ButtonModule,
+    SharedModule,
+    AuthModule,
   ],
-  providers: [provideClientHydration(), provideHttpClient()],
+  providers: [
+    provideClientHydration(),
+    provideHttpClient(),
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,0 +1,8 @@
+<!-- src/app/components/notes/note-detail/note-detail.component.html -->
+<div class="note-detail" *ngIf="note$ | async as note">
+  <h2>{{ note.title }}</h2>
+  <p>{{ note.content }}</p>
+  <p><strong>Tags:</strong> {{ note.tags?.join(", ") }}</p>
+  <button (click)="editNote()">Edit</button>
+  <button (click)="deleteNote()">Delete</button>
+</div>

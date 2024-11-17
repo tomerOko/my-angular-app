@@ -21,6 +21,7 @@
     "@angular/platform-server": "^18.2.0",
     "@angular/router": "^18.2.0",
     "@angular/ssr": "^18.2.11",
+    "@elastic/apm-rum": "^5.16.0",
     "@ngrx/effects": "^18.1.1",
     "@ngrx/entity": "^18.1.1",
     "@ngrx/router-store": "^18.1.1",

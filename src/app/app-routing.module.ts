@@ -4,7 +4,7 @@ import { NavigationComponent } from './shared/components/navigation/navigation.c
 
 const routes: Routes = [
   {
-    path: '',
+    path: '1',
     component: NavigationComponent,
   },
   {
@@ -49,6 +49,28 @@ const routes: Routes = [
         './learning/stage_b/show-data-best-practices/show-data-best-practices.module'
       ).then((m) => m.ShowDataBestPracticesModule),
   },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./project/components/auth/auth.module').then((m) => m.AuthModule),
+  },
+  {
+    path: 'notes',
+    loadChildren: () =>
+      import('./project/components/notes/notes.module').then(
+        (m) => m.NotesModule
+      ),
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'analytics',
+    loadChildren: () =>
+      import('./project/components/analytics/analytics.module').then(
+        (m) => m.AnalyticsModule
+      ),
+    canActivate: [AuthGuard],
+  },
+  { path: '**', redirectTo: '/notes' },
 ];
 
 @NgModule({

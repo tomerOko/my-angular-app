@@ -1,0 +1,28 @@
+/* src/app/components/notes/notes-list/notes-list.component.scss */
+.notes-list {
+  h2 {
+    margin-top: 0;
+  }
+
+  button {
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+
+    li {
+      margin-bottom: 0.5rem;
+
+      a {
+        text-decoration: none;
+        color: #333;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

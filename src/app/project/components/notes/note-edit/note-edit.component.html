@@ -1,0 +1,32 @@
+<div class="note-edit">
+  <h2>{{ noteId ? "Edit Note" : "Create Note" }}</h2>
+  <form [formGroup]="noteForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label>Title</label>
+      <input type="text" formControlName="title" />
+      <div
+        *ngIf="noteForm.get('title').invalid && noteForm.get('title').touched"
+      >
+        Title is required
+      </div>
+    </div>
+    <div>
+      <label>Content</label>
+      <textarea formControlName="content"></textarea>
+      <div
+        *ngIf="
+          noteForm.get('content').invalid && noteForm.get('content').touched
+        "
+      >
+        Content is required
+      </div>
+    </div>
+    <div>
+      <label>Tags (comma-separated)</label>
+      <input type="text" formControlName="tags" />
+    </div>
+    <button type="submit" [disabled]="noteForm.invalid">
+      {{ noteId ? "Update" : "Create" }}
+    </button>
+  </form>
+</div>

@@ -1,0 +1,11 @@
+<nav>
+  <div class="nav-left">
+    <a routerLink="/" class="logo">Notes Manager</a>
+    <a routerLink="/notes">Notes</a>
+    <a routerLink="/analytics">Analytics</a>
+  </div>
+  <div class="nav-right" *ngIf="authService.isLoggedIn()">
+    <span>{{ authService.getUserEmail() }}</span>
+    <button (click)="logout()">Logout</button>
+  </div>
+</nav>
